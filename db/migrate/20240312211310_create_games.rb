@@ -6,5 +6,6 @@ class CreateGames < ActiveRecord::Migration[7.0]
 
       t.timestamps
     end
+    add_index :games, :checksum
   end
 end
