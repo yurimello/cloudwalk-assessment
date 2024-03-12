@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_03_12_185803) do
+ActiveRecord::Schema[7.0].define(version: 2024_03_12_211310) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -48,6 +48,16 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_12_185803) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "games", force: :cascade do |t|
+    t.bigint "game_log_id", null: false
+    t.string "checksum"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["checksum"], name: "index_games_on_checksum"
+    t.index ["game_log_id"], name: "index_games_on_game_log_id"
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "games", "game_logs"
 end
