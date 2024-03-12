@@ -23,7 +23,7 @@ class ImportGameLogService
   private
 
   def game_log
-    @game_log ||= GameLog.find(@game_log_id)
+    @game_log ||= GameLog.find_by(id: @game_log_id)
   end
 
   def parser
