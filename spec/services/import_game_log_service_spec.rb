@@ -20,7 +20,7 @@ RSpec.describe ImportGameLogService do
     let(:adapter_instance) { instance_double('TxtParser', games: [game_data], game_id: 'game_id') }
     it 'finds or creates a game log' do
       expect(GameLog).to receive(:find_or_create_by).with(filename: file_name)
-      described_class.call(log_data, adapter)
+      described_class.call(log_data, file_name, adapter)
     end
 
     context 'when game log is found' do
@@ -28,7 +28,7 @@ RSpec.describe ImportGameLogService do
 
       it 'creates games from parsed data' do
         expect(Game).to receive(:find_or_create_by).with(game_log_id: game_log.id, checksum: 'game_id').and_return(game)
-        described_class.call(log_data, adapter)
+        described_class.call(log_data, file_name, adapter)
       end
     end
 

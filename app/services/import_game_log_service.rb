@@ -1,9 +1,9 @@
 class ImportGameLogService
-  def self.call(log_data, adapter = TxtParser)
-    game_log = GameLog.find_or_create_by(filename: log_data.original_filename)
+  def self.call(log_data, filename, adapter = TxtParser)
+    game_log = GameLog.find_or_create_by(filename: filename)
     return false unless game_log
     
-    game_log.file.attach(log_data)
+    game_log.file.attach(io: log_data, filename: filename)
     new(game_log.id, adapter).call
   end
 

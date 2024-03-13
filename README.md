@@ -1,3 +1,6 @@
+
+rake import['/Users/yuricorrea/projects/cloudwalk-assessment/spec/fixtures/log.txt']
+
 # Software Engineer test
 
 > Truth can only be found in one place: the code. <br/>
