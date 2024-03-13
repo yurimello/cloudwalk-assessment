@@ -18,7 +18,7 @@ class TxtParser < BaseParser
     parsed_data = kill_data.match(/.*Kill:.*:\s(.*)\bkilled\b(.*)\bby\b(.*)/i)
     {
       killer: killer(parsed_data[1]),
-      killer_class: killer_class(parsed_data[1]),
+      killer_type: killer_type(parsed_data[1]),
       killed: killed(parsed_data[2]),
       death_means: death_means(parsed_data[3]),
       kill_id: digest("#{game_id}#{kill_data}")
@@ -38,8 +38,8 @@ class TxtParser < BaseParser
     kill_data.gsub(/(\<|\>)/, '').strip
   end
 
-  def killer_class(kill_data)
-    kill_data.match(/world/) ? WorldEnvironment : Player
+  def killer_type(kill_data)
+    kill_data.match(/world/) ? :world : :player
   end
 
   def log_content
