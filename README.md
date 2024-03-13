@@ -1,5 +1,46 @@
+# Specs
+- Ruby 3.2.3
+- Rails 7.0.8
+- Postgres
 
-rake import['/Users/yuricorrea/projects/cloudwalk-assessment/spec/fixtures/log.txt']
+## project board
+[here](https://github.com/users/yurimello/projects/3) you can see the tasks i did finished and the taks are missing.
+
+# Install
+
+```
+bundle install
+rake db:create
+rake db:migrate
+```
+
+# Testing
+```
+rspec
+```
+
+# Running application
+## With rake task
+- import `rake import['/full/path/to/spec/fixtures/log.txt']`
+- report `rake report`
+
+## With Server
+### Start Server
+```
+rails s
+```
+
+### Import
+```
+curl -F 'data=@/full/path/to/spec/fixtures/log.txt' localhost:3000/game_logs -X POST
+```
+
+### Report
+```
+curl localhost:3000/reports
+```
+
+
 
 # Software Engineer test
 
