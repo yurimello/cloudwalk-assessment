@@ -9,7 +9,7 @@ RSpec.describe TxtParser do
     it 'parses games from log content' do
       games = parser.games
       expect(games).to be_an(Array)
-      expect(games.size).to eq(21)
+      expect(games.size).to eq(22)
     end
   end
 
