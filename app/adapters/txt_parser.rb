@@ -10,7 +10,38 @@ class TxtParser < BaseParser
     digest("#{game_log_id}#{game_data}")
   end
 
+  def kills(game_data)
+    game_data.split("\n").grep(/Kill/)
+  end
+
+  def parse_kill(game_id, kill_data)
+    parsed_data = kill_data.match(/.*Kill:.*:\s(.*)\bkilled\b(.*)\bby\b(.*)/i)
+    {
+      killer: killer(parsed_data[1]),
+      killer_type: killer_type(parsed_data[1]),
+      killed: killed(parsed_data[2]),
+      death_means: death_means(parsed_data[3]),
+      kill_id: digest("#{game_id}#{kill_data}")
+    }
+  end
+
   private
+  def killed(kill_data)
+    kill_data.strip
+  end
+
+  def death_means(kill_data)
+    kill_data.strip
+  end
+
+  def killer(kill_data)
+    kill_data.gsub(/(\<|\>)/, '').strip
+  end
+
+  def killer_type(kill_data)
+    kill_data.match(/world/) ? :world : :player
+  end
+
   def log_content
     @log_content ||= File.read(@file_path)
   end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_03_12_234741) do
+ActiveRecord::Schema[7.0].define(version: 2024_03_13_145923) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -50,6 +50,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_12_234741) do
     t.bigint "game_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "death_means"
     t.index ["checksum"], name: "index_game_activities_on_checksum"
     t.index ["game_id"], name: "index_game_activities_on_game_id"
     t.index ["killerable_type", "killerable_id"], name: "index_game_activities_on_killerable"

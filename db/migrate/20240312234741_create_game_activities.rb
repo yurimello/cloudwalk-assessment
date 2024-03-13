@@ -5,7 +5,7 @@ class CreateGameActivities < ActiveRecord::Migration[7.0]
       t.bigint :killed_id, null: false, foreign_key: true
       t.references :killerable, null: false, polymorphic: true
       t.references :game, null: false, foreign_key: true
-
+      t.integer :death_means, :integer
       t.timestamps
     end
     add_index :game_activities, :checksum

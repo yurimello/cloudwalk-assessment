@@ -7,11 +7,13 @@ RSpec.describe ImportGameLogService do
   let(:adapter) { double('adpater') }
   let(:attachment_instance) { double('attachment') }
   let(:game_data) { { id: 1, name: 'Game 1' } }
+  let(:game) { create(:game) }
 
   before do 
     allow(adapter).to receive(:new).and_return(adapter_instance)
     allow(adapter_instance).to receive(:games).and_return([game_data])
     allow(adapter_instance).to receive(:game_id).and_return('game_id')
+    allow(ImportGameActivitiesService).to receive(:call).and_return(nil)
   end
 
   describe '.call' do
@@ -25,7 +27,7 @@ RSpec.describe ImportGameLogService do
       let(:game_log) { create(:game_log, filename: file_name) }
 
       it 'creates games from parsed data' do
-        expect(Game).to receive(:find_or_create_by).with(game_log_id: game_log.id, checksum: 'game_id')
+        expect(Game).to receive(:find_or_create_by).with(game_log_id: game_log.id, checksum: 'game_id').and_return(game)
         described_class.call(log_data, adapter)
       end
     end
