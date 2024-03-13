@@ -5,7 +5,7 @@ class GenerateReportService
 
   def call
     games = Game.includes(activities: [:killerable, :killed]).all
-    report = {}
+    report = {raking: ranking}
     games.each do |game|
       activities = game.activities
       report["game_#{game.id}".to_sym] = {
@@ -19,7 +19,7 @@ class GenerateReportService
   def report_activities(activities)
     killers = activities.map {|activity| activity.killerable if activity.killerable_type == 'Player'}.compact
     {
-      players: players(killers, activities),
+      players: players(activities, killers),
       kills: killer_score(activities, killers),
       death_means: death_means(activities)
     }
@@ -42,8 +42,21 @@ class GenerateReportService
     grouped_activities.map {|k,v| {k => v.count} }.reduce(Hash.new, :merge)
   end
 
-  def players(killers, activities)
+  def players(activities, killers)
     killeds = activities.map(&:killed)
     killers.map(&:name).concat(killeds.map(&:name)).uniq
+  end
+
+  def ranking
+    kills = GameActivity.where.not(killerable_type: 'WorldEnvironment').group(:killerable_id, :killerable_type).count.map{|k, v| [k[0], v]}
+    killeds_by_world = GameActivity.where(killerable_type: 'WorldEnvironment').group(:killed_id).count
+    player_ranking = kills.map do |kill|
+      player_id = kill[0]
+      kill_count = kill[1]
+      kill_count = kill_count - killeds_by_world[player_id].to_i
+      player = Player.find(player_id)
+      [ player.name, kill_count ]
+    end
+    Hash[player_ranking.sort {|r| -r[1]}]
   end
 end
