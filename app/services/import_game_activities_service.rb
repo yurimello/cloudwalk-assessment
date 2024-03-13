@@ -28,6 +28,7 @@ class ImportGameActivitiesService
     else
       GameActivity.create(game_id: @game_id, killerable: killer, killed: killed, death_means: death_means, checksum: kill_id)
     end
+    
   end
 
   def find_or_create_killer(killer, killer_type)
